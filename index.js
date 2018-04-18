@@ -14,6 +14,7 @@ server.listen(port, function () {
 app.use(express.static(path.join(__dirname, 'public')));
 
 var app = require('hpp');
+app.use(hpp());
 // Chatroom
 
 var numUsers = 0;
