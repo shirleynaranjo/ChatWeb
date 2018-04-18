@@ -1,6 +1,13 @@
 // Setup basic express server
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var csrf = require('csurf'); // Anti-CSRF module
 var express = require('express');
+var csrfProtection = csrf( {cookie: true} );
 var app = express();
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(csrfProtection);
 var path = require('path');
 var server = require('http').createServer(app);
 var io = require('../..')(server);
@@ -15,6 +22,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var app = require('hpp');
 app.use(hpp());
+app.use(function(req, res, next) {
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  res.set('Content-Security-Policy', "frame-ancestors 'none'");
+res.set('X-Content-Type-Opcions','nosniff');
+  next();
+});
 // Chatroom
 
 var numUsers = 0;
