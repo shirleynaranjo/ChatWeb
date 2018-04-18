@@ -13,6 +13,7 @@ server.listen(port, function () {
 // Routing
 app.use(express.static(path.join(__dirname, 'public')));
 
+var app = require('hpp');
 // Chatroom
 
 var numUsers = 0;
